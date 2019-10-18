@@ -7,7 +7,8 @@ import imageio
 
 # Image file to compress
 img_file = "example_img.jpg"
-out_file = "example_output.gif"
+out_file_1 = "example_output.jpg"
+out_file_2 = "example_output.gif"
 
 # Number of clusters
 K = 16
@@ -130,8 +131,12 @@ def k_means_vis(img_file):
 		centroids = update_centroids(X, idx)
 		if (old_centroids == centroids).all():
 			converged = True
-			
 		i = i + 1
+		
+	# Save compressed image to jpg
+	out_img = decompress_img(idx, centroids, img_shape)
+	out_img = out_img.astype('uint8')
+	mpimg.imsave(out_file_1, out_img, format='jpg')
 	
 	# Turn the jpgs into a gif and delete the jpgs
 	images = []
@@ -142,6 +147,6 @@ def k_means_vis(img_file):
 		if j == 0 or j == i-1:
 			images.append(imageio.imread(img_file))
 		os.remove(img_file)
-	imageio.mimsave(out_file, images, duration=FRAME_DURATION)
+	imageio.mimsave(out_file_2, images, duration=FRAME_DURATION)
 	
 k_means_vis(img_file)
