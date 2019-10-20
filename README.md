@@ -2,7 +2,7 @@
 
 ### Example output
 
-![example_output.gif](example_output.gif "Example output gif")
+![example_output.gif](Examples/example_output.gif "Example output gif")
 
 ## Project Summary
 
@@ -12,7 +12,7 @@ Each pixel, represented as an RGB tuple, can be thought of as a point in 3-dimen
 
 ### Initial visualisation
 
-![Example initial iteration](iteration_00.png "Example initial visualisation")
+![Example initial iteration](Examples/iteration_00.png "Example initial visualisation")
 
 The colouring of each pixel in the output image is determined by the RBG value of the pixels nearest centroid. The centroids are initialised as a random sample of size K from the original images pixels. On each iteration the positioning of the centroids is updated via the k-means algorithm.
 
@@ -20,14 +20,14 @@ Each iteration is plotted in a similar manner to the first slide, but each pixel
 
 ### Example iteration
 
-![iteration_05.png](iteration_05.png "Example iteration")
+![iteration_05.png](Examples/iteration_05.png "Example iteration")
 
 The program also outputs the final compressed image in jpg format. Below shows the original image and the output image for comparison.
 
 ### Input image
 
-![example_img.jpg](example_img.jpg "Example input")
+![example_img.jpg](Examples/example_img.jpg "Example input")
 
 ### Compressed image
 
-![example_output.jpg](example_output.jpg "Example output")
+![example_output.jpg](Examples/example_output.jpg "Example output")
