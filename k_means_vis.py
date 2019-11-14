@@ -5,26 +5,22 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import imageio
 
-# Image file to compress
-img_file = "example_img.jpg"
-out_file_1 = "example_output.jpg"
-out_file_2 = "example_output.gif"
+img_file = "input_img.jpg"		# Input image
+out_file_1 = "output_img.jpg"	# Output jpeg
+out_file_2 = "output_gif.gif"	# Output gif
 
-# Number of clusters
-K = 16
-# Maximum number of iternations
-MAX_ITER = 20
+K = 16			# Number of clusters to use in the K-means algorithm
+MAX_ITER = 20	# Maximum number of iterations to run
 
-# Styling
 TITLE_SIZE = 18
 AXIS_LABEL_SIZE = 12
 AXIS_TICK_SIZE = 8
-PIXEL_SCATTER_SIZE = 1
+SCATTER_SIZE = 1
 CENTROID_SIZE = 16	
 FRAME_DURATION = 0.6
 
 def decompress_img(idx, centroids, img_shape):
-	"""use idx and centroids to compute an array of pixels that can be
+	"""Use idx and centroids to compute an array of pixels that can be
 	used by matplotlib to display the compressed image"""
 	centroids = np.rint(centroids)
 	centroids = centroids.astype(int)
@@ -32,7 +28,7 @@ def decompress_img(idx, centroids, img_shape):
 	return img
 
 def vis_iteration(X, idx, centroids, img_shape, i):
-	"""plot a visualization of the current iteration and save as a 
+	"""Plot a visualization of the current iteration and save as a 
 	jpeg file"""
 	img = decompress_img(idx, centroids, img_shape)
 	col_array = c=np.round(centroids[idx]/255.0,4)
@@ -43,7 +39,7 @@ def vis_iteration(X, idx, centroids, img_shape, i):
 	clrs = ["R","G","B"]
 	for n, c in enumerate([["G","R"],["B","R"],["G","B"]]):
 		plt.subplot(2,2,n+1)
-		plt.scatter(X[:,clrs.index(c[0])], X[:,clrs.index(c[1])], c=col_array, s=PIXEL_SCATTER_SIZE)
+		plt.scatter(X[:,clrs.index(c[0])], X[:,clrs.index(c[1])], c=col_array, s=SCATTER_SIZE)
 		plt.scatter(centroids[:,clrs.index(c[0])], centroids[:,clrs.index(c[1])], c='red', s=CENTROID_SIZE)
 		plt.axis([0,255,0,255])
 		plt.xlabel(c[0], fontsize=AXIS_LABEL_SIZE)
@@ -58,7 +54,7 @@ def vis_iteration(X, idx, centroids, img_shape, i):
 	plt.close()
 	
 def vis_original(X, img_shape):
-	"""plot of visualization of the original image"""
+	"""Plot of visualization of the original image."""
 	img = X.reshape(img_shape)
 	col_array = c=np.round(X/255.0,4)
 	
@@ -68,7 +64,7 @@ def vis_original(X, img_shape):
 	clrs = ["R","G","B"]
 	for n, c in enumerate([["G","R"],["B","R"],["G","B"]]):
 		plt.subplot(2,2,n+1)
-		plt.scatter(X[:,clrs.index(c[0])], X[:,clrs.index(c[1])], c=col_array, s=PIXEL_SCATTER_SIZE)
+		plt.scatter(X[:,clrs.index(c[0])], X[:,clrs.index(c[1])], c=col_array, s=SCATTER_SIZE)
 		plt.axis([0,255,0,255])
 		plt.xlabel(c[0], fontsize=AXIS_LABEL_SIZE)
 		plt.ylabel(c[1], fontsize=AXIS_LABEL_SIZE)
@@ -82,16 +78,17 @@ def vis_original(X, img_shape):
 	plt.close()
 	
 def init_centroids(X, K):
-	"""initialize the centroids to be a sample of K points in X
+	"""Initialize the centroids to be a sample of K points in X
 	(sampling without replacement)"""
 	Xlen = np.shape(X)[0]
 	centroids = X[random.sample(range(Xlen),K)]
 	return centroids.astype(float)
 	
 def find_closest_centroids(X, centroids):
-	"""return an array 'idx', the i'th element of which is the index of
+	"""Return an array 'idx', the i'th element of which is the index of
 	the centroid closest to the i'th element of X"""
 	Xlen = np.shape(X)[0]
+	
 	# for each pixel in X find the closest centroid
 	idx = np.zeros(Xlen, dtype=np.int8)
 	for xidx in range(Xlen):
